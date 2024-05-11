@@ -1,13 +1,16 @@
 import sys
 import csv
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QVBoxLayout, QWidget, QTabWidget, QListWidget, QDialog, QHBoxLayout, QSpinBox
-
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QVBoxLayout, QWidget, QTabWidget,
+                             QListWidget, QDialog, QHBoxLayout, QSpinBox, QScrollArea)
+from PyQt5.QtCore import Qt
 import PP_Sladosti_warehouse
 
 dried_fruits = PP_Sladosti_warehouse.dried_fruits
 nuts = PP_Sladosti_warehouse.nuts
 other = PP_Sladosti_warehouse.other
 
+
+planning = dict()
 
 def save_product_to_csv(dict_products, name_file):
     with open(name_file, "w", newline="") as csvfile:
@@ -73,7 +76,7 @@ class UpdateWeightDialog(QDialog):
                 csv_writer.writerows(rows)
 
         # Здесь можно добавить логику для сохранения обновленных данных о продуктах
-        self.list_update.load_products_from_csv()
+        # self.list_update.load_products_from_csv()
         print("Вес продуктов обновлен.")
 
         self.close()
@@ -108,11 +111,9 @@ class CounterWidget(QWidget):
         self.main.addLayout(self.layout)
         self.setLayout(self.main)
 
-    def result_plan(self, values):
-        print(values)
-
     def value_changed(self, value):
-        print(f'Новое значение: {value}')
+        planning[self.mix_name] = value
+        print(f'Новое значение {self.mix_name}: {value}')
 
 
 class PlanningTab(QWidget):
@@ -122,14 +123,27 @@ class PlanningTab(QWidget):
 
     def initUI(self):
         self.layout = QVBoxLayout()
+        self.monos1 = ['кешью', 'миндаль', 'фундук']
+        self.monos2 = ['манго', 'инжир', 'клюква']
+        self.monos3 = ['банан', 'ананас', 'курага']
+        self.monos4 = ['красная слива', 'чернослив', 'дыня']
+        self.monos5 = ['кокос', 'апельсин']
+        self.monos6 = ['чернослив конфета', 'дыня конфета', 'курага конфета']
+        self.mixes = {
+            'mix1': self.monos1,
+            'mix2': self.monos2,
+            'mix3': self.monos3,
+            'mix4': self.monos4,
+            'mix5': self.monos5,
+            'mix6': self.monos6,
+        }
 
-        self.mixes = ['Mix-1', 'Mix-2', 'Mix-3', 'Mix-4', 'Mix-5', 'Mix-6']
-        self.monos = ['кешью', 'миндаль', 'фундук']
-        for mix in self.mixes:
+        for mix in self.mixes.keys():
             self.layout.addWidget(CounterWidget(mix))
 
-        for mono in self.monos:
-            self.layout.addWidget(CounterWidget(mono))
+        for monos in self.mixes.values():
+            for mono in monos:
+                self.layout.addWidget(CounterWidget(mono))
 
         self.setLayout(self.layout)
 
@@ -139,6 +153,7 @@ class WarehouseManager(QMainWindow):
         super().__init__()
         self.name_file = {'dried_fruits.csv': dried_fruits, 'nuts.csv': nuts, 'other.csv': other}
         self.current_dict = dict()
+        self.plan_dict = dict()
         self.init_ui()
 
     def init_ui(self):
@@ -170,16 +185,20 @@ class WarehouseManager(QMainWindow):
         main_layout = QHBoxLayout()
         layout = QVBoxLayout()
         right_side = QVBoxLayout()
-        planing_layout = PlanningTab()
+
+        self.scroll_area = QScrollArea()
+        self.planning_layout = PlanningTab()
+        self.scroll_area.setWidget(self.planning_layout)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
 
         layout.addWidget(self.button_open_dialog)
 
         self.right_label = QLabel('Планирование')
         right_side.addWidget(self.right_label)
-        right_side.addWidget(planing_layout)
+        right_side.addWidget(self.scroll_area)
 
         self.result_button = QPushButton('Посчитать')
-        self.result_button.clicked.connect(CounterWidget.result_plan)
+        self.result_button.clicked.connect(self.result_plan_func)
         right_side.addWidget(self.result_button)
 
         main_layout.addLayout(layout)
@@ -208,6 +227,11 @@ class WarehouseManager(QMainWindow):
     def open_dialog(self):
         dialog = UpdateWeightDialog()
         dialog.exec_()
+
+    def result_plan_func(self):
+
+        print(f'значения словаря сейчас: {self.current_dict}')
+        print(f'посчитал {planning}')
 
     def load_products_from_csv(self):
         # print('before')

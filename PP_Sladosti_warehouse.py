@@ -1,26 +1,26 @@
 nuts = {
-    'walnut': [0, 'грецкий орех'],
     'cashew': [0, 'кешью'],
-    'coconut': [0, 'кокос'],
     'almond': [0, 'миндаль'],
-    'pumpkin_seed': [0, 'тыквенная семечка'],
     'hazelnut': [0, 'фундук'],
+    'walnut': [0, 'грецкий орех'],
+    'pumpkin_seed': [0, 'тыквенная семечка'],
+    'coconut': [0, 'кокос'],
 }
 
 dried_fruits = {
     'pineapple': [0, 'ананас'],
     'banana': [0, 'банан'],
     'melon': [0, 'дыня'],
-    'raisin': [0, 'изюм'],
     'figs': [0, 'инжир'],
     'cranberry': [0, 'клюква'],
     'red_plum': [0, 'красная слива'],
     'dried_apricots': [0, 'курага'],
     'mango': [0, 'манго'],
-    'dried_orange': [0, 'сушёный апельсин'],
+    'prunes': [0, 'чернослив'],
+    'raisin': [0, 'изюм'],
     'date_fruit_brown': [0, 'финик коричневый'],
     'date_fruit_black': [0, 'финик чёрный'],
-    'prunes': [0, 'чернослив'],
+    'dried_orange': [0, 'сушёный апельсин'],
 }
 
 other = {
@@ -67,6 +67,17 @@ mix4 = {
     'melon': 2500,
     'prunes': 2500,
     'red_plum': 2500,
+}
+
+mix5 = {
+    'coconut': 2500,
+    'dried_orange': {'coconut': 2500, 'dried_orange': 1000},
+}
+
+mix6 = {
+    'melon': 4000,
+    'prunes': 4500,
+    'dried_apricots': 4500,
 }
 
 def updating_warehouse():
