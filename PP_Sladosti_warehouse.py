@@ -17,7 +17,7 @@ dried_fruits = {
     'red_plum': [0, 'красная слива'],
     'dried_apricots': [0, 'курага'],
     'mango': [0, 'манго'],
-    'dried orange': [0, 'сушёный апельсин'],
+    'dried_orange': [0, 'сушёный апельсин'],
     'date_fruit_brown': [0, 'финик коричневый'],
     'date_fruit_black': [0, 'финик чёрный'],
     'prunes': [0, 'чернослив'],
@@ -37,12 +37,36 @@ mix1_base = {
     'date_fruit_black': 3200
 }
 
+mix1 = {
+    'cashew': 1750,
+    'almond': 1750,
+    'hazelnut': 1750,
+}
+
 mix2_3_4_base = {
     'walnut': 500,
     'hazelnut': 600,
     'almond': 700,
     'pumpkin_seed': 1500,
     'cashew': 700
+}
+
+mix2 = {
+    'mango': 2500,
+    'cranberry': 2500,
+    'figs': 2500,
+}
+
+mix3 = {
+    'dried_apricots': 2500,
+    'banana': 2500,
+    'pineapple': 2500,
+}
+
+mix4 = {
+    'melon': 2500,
+    'prunes': 2500,
+    'red_plum': 2500,
 }
 
 def updating_warehouse():
