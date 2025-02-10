@@ -14,14 +14,14 @@ class A(metaclass=Meta):
         return super().__new__(cls)
 
 A()
-# @contextmanager
-# def ctx():
-#     print(1)
-#     try: yield
-#     finally: print(2)
+@contextmanager
+def ctx():
+    print(1)
+    try: yield
+    finally: print(2)
 
-# with ctx(), ctx():
-#     print(3)
+with ctx(), ctx():
+    print(3)
 
 a = array('i', [1, 2, 3])
 b = memoryview(a).cast("B")
